@@ -1,30 +1,27 @@
 ﻿using OpenQA.Selenium;
-using SeleniumExtras.PageObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CSharpSelenium.PageObjects
 {
     internal class LoginPageDemoQa
     {
-        public LoginPageDemoQa()
+        ////euser
+        ////EuserPass!-123
+
+        private readonly IWebDriver _driver;
+
+        public LoginPageDemoQa(IWebDriver driver) => _driver = PropertiesCollection.driver;
+
+        IWebElement txtUserName => _driver.FindElement(By.Id("userName"));
+        IWebElement txtPassword => _driver.FindElement(By.Id("password"));
+        IWebElement btnLogin => _driver.FindElement(By.Id("login"));
+
+        public ProfilePageDemoQa Login(string userName, string password)
         {
-            PageFactory.InitElements(PropertiesCollection.driver, this);
+            txtUserName.SendKeys(userName);
+            txtPassword.SendKeys(password);
+            btnLogin.Click();
+
+            return new ProfilePageDemoQa(_driver);
         }
-
-        //euser
-        //EuserPass!-123
-
-        [FindsBy (How = How.Id, Using = "userName")]
-        public IWebElement UserName { get; set; }
-
-        [FindsBy(How = How.Id, Using = "password")]
-        public IWebElement Password { get; set; }
-
-        [FindsBy(How = How.Id, Using = "login")]
-        public IWebElement LoginButton { get; set; }
     }
 }
